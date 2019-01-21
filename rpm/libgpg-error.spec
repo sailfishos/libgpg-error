@@ -29,6 +29,16 @@ components.  Among these are GPG, GPGSM, GPGME, GPG-Agent, libgcrypt,
 pinentry, SmartCard Daemon and possibly more in the future. This package
 contains files necessary to develop applications using libgpg-error.
 
+%package doc
+Summary:   Documentation for %{name}
+Group:     Documentation
+Requires:  %{name} = %{version}-%{release}
+Requires(post): /sbin/install-info
+Requires(postun): /sbin/install-info
+
+%description doc
+Man and info pages for %{name}.
+
 %prep
 %setup -q -n %{name}-%{version}/%{name}
 %patch0 -p1
@@ -47,6 +57,10 @@ rm -fr $RPM_BUILD_ROOT
 %make_install
 rm -r $RPM_BUILD_ROOT/%{_datadir}/common-lisp
 
+mkdir -p $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
+        AUTHORS README NEWS ChangeLog
+
 %find_lang %{name}
 
 %check
@@ -56,22 +70,34 @@ make check
 
 %postun -p /sbin/ldconfig
 
+%post doc
+if [ -f %{_infodir}/gpgrt.info.gz ]; then
+    /sbin/install-info %{_infodir}/gpgrt.info.gz %{_infodir}/dir || :
+fi
+
+%preun doc
+if [ $1 = 0 -a -f %{_infodir}/gpgrt.info.gz ]; then
+   /sbin/install-info --delete %{_infodir}/gpgrt.info.gz %{_infodir}/dir || :
+fi
+
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc COPYING COPYING.LIB
+%license COPYING COPYING.LIB
 %{_bindir}/gpg-error
 %{_libdir}/libgpg-error.so.*
 
 %files devel
 %defattr(-,root,root)
-%doc AUTHORS README NEWS ChangeLog
 %{_bindir}/gpg-error-config
 %{_libdir}/libgpg-error.so
 %{_includedir}/gpg-error.h
 %{_includedir}/gpgrt.h
 %{_datadir}/aclocal/gpg-error.m4
 %{_libdir}/pkgconfig/*.pc
-%{_datadir}/%{name}/*
-%{_datadir}/info/gpgrt.info.gz
-%{_datadir}/man/man1/gpg-error-config.1.gz
+%{_datadir}/%{name}
 
+%files doc
+%defattr(-,root,root,-)
+%{_infodir}/gpgrt.info.gz
+%{_mandir}/man1/gpg-error-config.1.gz
+%{_docdir}/%{name}-%{version}
