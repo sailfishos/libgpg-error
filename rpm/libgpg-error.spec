@@ -9,7 +9,6 @@ Group: System/Libraries
 License: LGPLv2+ and GPLv2+
 BuildRequires: gawk
 BuildRequires: gettext >= 0.19.3
-BuildRequires: texinfo
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
