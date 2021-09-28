@@ -7,7 +7,7 @@ index a099aba..4f6a2cd 100644
  AC_CONFIG_FILES([Makefile])
  AC_CONFIG_FILES([doc/Makefile po/Makefile.in m4/Makefile])
 -AC_CONFIG_FILES([src/Makefile tests/Makefile])
-+AC_CONFIG_FILES([src/Makefile tests/Makefile src/libgpg-error.pc])
++AC_CONFIG_FILES([src/Makefile tests/Makefile src/gpg-error.pc])
  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpg-error.asd])
  AC_CONFIG_FILES([src/versioninfo.rc src/gpg-error.w32-manifest])
  AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
@@ -19,7 +19,7 @@ index 5623aff..f71cdfa 100644
  m4datadir = $(datadir)/aclocal
  m4data_DATA = gpg-error.m4
  
-+pcfiles = libgpg-error.pc
++pcfiles = gpg-error.pc
 +pkgconfig_DATA = $(pcfiles)
 +pkgconfigdir = $(libdir)/pkgconfig
 +
@@ -30,15 +30,15 @@ index 5623aff..f71cdfa 100644
  	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
  	gpg-error.vers gpg-error.def.in \
          versioninfo.rc.in gpg-error.w32-manifest.in \
-+	libgpg-error.pc.in \
++	gpg-error.pc.in \
  	$(lock_obj_pub)
  
  BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
-diff --git a/src/libgpg-error.pc.in b/src/libgpg-error.pc.in
+diff --git a/src/gpg-error.pc.in b/src/gpg-error.pc.in
 new file mode 100644
 index 0000000..d0f24c5
 --- /dev/null
-+++ b/src/libgpg-error.pc.in
++++ b/src/gpg-error.pc.in
 @@ -0,0 +1,11 @@
 +prefix=@prefix@
 +exec_prefix=${prefix}
