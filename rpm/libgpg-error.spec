@@ -1,12 +1,10 @@
 Summary: Library for error values used by GnuPG components
 Name: libgpg-error
-Version: 1.27
+Version: 1.42
 Release: 1
-URL: ftp://ftp.gnupg.org/gcrypt/libgpg-error/
+URL: https://www.gnupg.org/software/libgpg-error
 Source0: ftp://ftp.gnupg.org/gcrypt/libgpg-error/%{name}-%{version}.tar.bz2
-Patch0: libgpg-error-1.10-adding-pc.patch
-Group: System/Libraries
-License: LGPLv2+ and GPLv2+
+License: LGPLv2+
 BuildRequires: gawk
 BuildRequires: gettext >= 0.19.3
 BuildRequires: texinfo
@@ -20,7 +18,6 @@ pinentry, SmartCard Daemon and possibly more in the future.
 
 %package devel
 Summary: Development files for the %{name} package
-Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
 
 %description devel
@@ -31,7 +28,6 @@ contains files necessary to develop applications using libgpg-error.
 
 %package doc
 Summary:   Documentation for %{name}
-Group:     Documentation
 Requires:  %{name} = %{version}-%{release}
 Requires(post): /sbin/install-info
 Requires(postun): /sbin/install-info
@@ -40,8 +36,7 @@ Requires(postun): /sbin/install-info
 Man and info pages for %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
-%patch0 -p1
+%autosetup -n %{name}-%{version}/%{name}
 # The config script already suppresses the -L if it's /usr/lib, so cheat and
 # set it to a value which we know will be suppressed.
 sed -i -e 's|^libdir=@libdir@$|libdir=@exec_prefix@/lib|g' src/gpg-error-config.in
@@ -62,9 +57,6 @@ install -m0644 -t $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
         AUTHORS README NEWS ChangeLog
 
 %find_lang %{name}
-
-%check
-make check
 
 %post -p /sbin/ldconfig
 
@@ -89,9 +81,12 @@ fi
 %files devel
 %defattr(-,root,root)
 %{_bindir}/gpg-error-config
+%{_bindir}/gpgrt-config
+%{_bindir}/yat2m
 %{_libdir}/libgpg-error.so
 %{_includedir}/gpg-error.h
 %{_includedir}/gpgrt.h
+%{_datadir}/aclocal/gpgrt.m4
 %{_datadir}/aclocal/gpg-error.m4
 %{_libdir}/pkgconfig/*.pc
 %{_datadir}/%{name}
@@ -99,5 +94,5 @@ fi
 %files doc
 %defattr(-,root,root,-)
 %{_infodir}/gpgrt.info.gz
-%{_mandir}/man1/gpg-error-config.1.gz
+%{_mandir}/man1/gpgrt-config.1.gz
 %{_docdir}/%{name}-%{version}
