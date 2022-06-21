@@ -2,8 +2,8 @@ Summary: Library for error values used by GnuPG components
 Name: libgpg-error
 Version: 1.42
 Release: 1
-URL: https://www.gnupg.org/software/libgpg-error
-Source0: ftp://ftp.gnupg.org/gcrypt/libgpg-error/%{name}-%{version}.tar.bz2
+URL: https://github.com/sailfishos/libgpg-error
+Source0: %{name}-%{version}.tar.bz2
 License: LGPLv2+
 BuildRequires: gawk
 BuildRequires: gettext >= 0.19.3
