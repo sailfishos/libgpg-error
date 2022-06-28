@@ -2,8 +2,8 @@ Summary: Library for error values used by GnuPG components
 Name: libgpg-error
 Version: 1.27
 Release: 1
-URL: ftp://ftp.gnupg.org/gcrypt/libgpg-error/
-Source0: ftp://ftp.gnupg.org/gcrypt/libgpg-error/%{name}-%{version}.tar.bz2
+URL: https://github.com/sailfishos/libgpg-error
+Source0: %{name}-%{version}.tar.bz2
 Patch0: libgpg-error-1.10-adding-pc.patch
 Group: System/Libraries
 License: LGPLv2+ and GPLv2+
