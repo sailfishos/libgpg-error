@@ -1,6 +1,6 @@
 Summary: Library for error values used by GnuPG components
 Name: libgpg-error
-Version: 1.42
+Version: 1.51
 Release: 1
 URL: https://github.com/sailfishos/libgpg-error
 Source0: %{name}-%{version}.tar.bz2
@@ -42,13 +42,13 @@ Man and info pages for %{name}.
 sed -i -e 's|^libdir=@libdir@$|libdir=@exec_prefix@/lib|g' src/gpg-error-config.in
 
 %build
+./autogen.sh
 # The --enable-maintainer-mode is because version.texi file is only generated with that
 # See https://www.sourceware.org/ml/guile/2000-01/msg00534.html
-%reconfigure --disable-static --enable-maintainer-mode
-make
+%configure --disable-static --enable-maintainer-mode --enable-install-gpg-error-config
+%make_build
 
 %install
-rm -fr $RPM_BUILD_ROOT
 %make_install
 rm -r $RPM_BUILD_ROOT/%{_datadir}/common-lisp
 
@@ -73,13 +73,11 @@ if [ $1 = 0 -a -f %{_infodir}/gpgrt.info.gz ]; then
 fi
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %license COPYING COPYING.LIB
 %{_bindir}/gpg-error
 %{_libdir}/libgpg-error.so.*
 
 %files devel
-%defattr(-,root,root)
 %{_bindir}/gpg-error-config
 %{_bindir}/gpgrt-config
 %{_bindir}/yat2m
@@ -92,7 +90,7 @@ fi
 %{_datadir}/%{name}
 
 %files doc
-%defattr(-,root,root,-)
 %{_infodir}/gpgrt.info.gz
+%{_mandir}/man1/gpg-error-config.1.gz
 %{_mandir}/man1/gpgrt-config.1.gz
 %{_docdir}/%{name}-%{version}
